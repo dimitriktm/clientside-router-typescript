@@ -1,0 +1,1 @@
+export { trimTrailingSlash } from "./trimSlash";
