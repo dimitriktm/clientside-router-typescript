@@ -2,56 +2,46 @@ import { RouteInterface } from "./interfaces/route-interface";
 import { RouteDeclarationInterface } from "./interfaces/route-declaration-interface";
 import { trimTrailingSlash } from "./utils";
 
+import { match } from "path-to-regexp";
 /**
  * Clean up
  */
 class Route implements RouteInterface {
-  constructor(private props: RouteDeclarationInterface) {}
+  private path;
+  private callback;
+  private name;
+  private pathPattern;
+  constructor(props: RouteDeclarationInterface) {
+    this.pathPattern = props.path;
+    this.path = match(props.path, {
+      encode: encodeURI,
+      decode: decodeURIComponent,
+    });
+    this.callback = props.callback;
+    this.name = props.name;
+  }
   getName() {
-    return this.props.name;
+    return this.name;
   }
   getCallback() {
-    return this.props.callback;
+    return this.callback;
   }
   getPath() {
-    return this.props.path;
+    return this.path;
   }
+  getPathPattern() {
+    return this.pathPattern;
+  }
+
   equals(currentPath: string): boolean {
-    const pathComponents = trimTrailingSlash(this.props.path).split("/");
-    const currentPathComponents = trimTrailingSlash(currentPath).split("/");
-
-    if (pathComponents.length !== currentPathComponents.length) {
-      return false;
-    }
-
-    const matchedComponents = pathComponents.filter((component, position) => {
-      if (component[0] === ":") {
-        return true;
-      } else if (component === currentPathComponents[position]) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    const isComponentsCountMatches =
-      matchedComponents.length === currentPathComponents.length;
-    return isComponentsCountMatches;
+    const isEqual = this.path(currentPath);
+    return isEqual ? true : false;
   }
   callCallback(currentPath: string) {
-    let currentPathComponents = trimTrailingSlash(currentPath).split("/");
-    let pathComponents = trimTrailingSlash(this.props.path).split("/");
-
-    let pathParameters = {};
-    pathComponents.map((component, position) => {
-      if (component[0] === ":") {
-        const noSpecialCharComponent = component.substr(1);
-        pathParameters[noSpecialCharComponent] =
-          currentPathComponents[position];
-      }
-    });
-
-    this.props.callback({ params: pathParameters });
+    const routeMatch = this.path(currentPath);
+    const { params } = routeMatch;
+    const routeProps = { params };
+    this.callback(routeProps);
   }
 }
 
