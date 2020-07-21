@@ -23,3 +23,7 @@ This project was made as practice of OOP.
 
     // router.navigate(routeName, params);
     router.navigate('article', {id: 'web-components'});
+
+#### Clean up event listeners before destroy
+
+    router.destroy();
