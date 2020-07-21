@@ -1,1 +1,1 @@
-1. implement sigleton pattern on router
+1. implement singleton pattern on router
