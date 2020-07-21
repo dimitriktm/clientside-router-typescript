@@ -1,4 +1,5 @@
-class RouterRequest {
+import { RouterRequestInterface } from "./interfaces";
+class RouterRequest implements RouterRequestInterface {
   public getPath(): string {
     return window.location.pathname;
   }

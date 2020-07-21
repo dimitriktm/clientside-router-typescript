@@ -1,0 +1,1 @@
+{"id":"index.html","dependencies":[{"name":"./index.ts","dynamic":true,"resolved":"/home/ray/Desktop/Router/client/index.ts","parent":"/home/ray/Desktop/Router/client/index.html"}],"generated":{"html":"<body>\n  <script src=\"/ed009b6b86b017532ef0489c77de5100.js\"></script>\n</body>\n"},"sourceMaps":null,"error":null,"hash":"4fc54d78877eb21fb17dc55d83f1a7d0","cacheData":{}}

@@ -1,13 +1,16 @@
 import { Route } from "./interfaces/route";
 import { ParserInterface } from "../parser/interfaces/parser-interfaces";
-
+import {
+  RouterRequestInterface,
+  RouterResponseInterface,
+} from "../communication/interfaces";
 // todo implement singleton or throw error on new if router registered
 class Router {
   protected routes: Route[] = [];
 
   constructor(
-    protected request,
-    protected response,
+    protected request: RouterRequestInterface,
+    protected response: RouterResponseInterface,
     protected parser: ParserInterface
   ) {}
 
