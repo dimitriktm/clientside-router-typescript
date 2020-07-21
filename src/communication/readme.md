@@ -1,1 +1,1 @@
-responsible for listening and dispatching navigation events
+Navigation related functionality package

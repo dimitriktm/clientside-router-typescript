@@ -1,1 +1,1 @@
-controller
+Router core functionality package

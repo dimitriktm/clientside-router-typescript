@@ -18,53 +18,42 @@ class Router {
     this.routes = routes;
     /**
      * When user lands first time on the page
-     * Next url changes will be fired with event throught Link component so we can catch path change event
      */
-    this.matchPath();
+    this.onRequest();
 
+    /**
+     * Next url changes will be fired with event throught Link component or go method
+     */
     // todo clean up event listener on desctruction
-    window.addEventListener("popstate", () => this.matchPath());
+    window.addEventListener("popstate", () => this.onRequest());
   }
-
+  protected onRequest() {
+    const foundRoute = this.matchPath();
+    if (foundRoute) {
+      this.invokeCallback(foundRoute);
+    }
+  }
   protected matchPath() {
     const currentPath = this.request.getPath();
-    let matchedRoute = null;
-    let routeData = null;
-    for (let route of this.routes) {
-      let matchResult = this.parser.match(route.path, currentPath);
-      if (matchResult !== false && matchResult !== null) {
-        matchedRoute = route;
-        routeData = matchResult;
-        break;
-      }
-    }
-    if (matchedRoute !== null) {
-      matchedRoute.invoke(routeData);
-    } else {
-      //todo handle scenario if no route matched
+    const foundRoute = this.routes.find((route) =>
+      this.parser.match(route.path, currentPath)
+    );
+    return foundRoute;
+  }
+  protected invokeCallback(route: Route) {
+    const currentPath = this.request.getPath();
+    const parsedCurrentPath = this.parser.parse(route.path, currentPath);
+    route.invoke(parsedCurrentPath);
+  }
+  public navigate(
+    routeName: string,
+    params: { [key: string]: string | number } = {}
+  ) {
+    const foundRoute = this.routes.find((route) => route.name === routeName);
+    if (foundRoute) {
+      const compiledPath = this.parser.compile(foundRoute.path, params);
+      this.response.redirect(compiledPath);
     }
   }
-  protected getParams(currentPath: string) {}
-  // public go({ name = "", path = "", params = {} }) {
-  //   const matchedRoute = this.routes.find((route) => {
-  //     if (route.getName() !== "" && name !== "" && route.getName() === name) {
-  //       return true;
-  //     } else if (route.equals(path)) {
-  //       return true;
-  //     } else {
-  //       //todo handle scnerioa if no route matched
-  //     }
-  //   });
-
-  //   /**
-  //    * create path with supplied params
-  //    * */
-  //   const routeToPath = compile(matchedRoute.getPathPattern(), {
-  //     encode: encodeURIComponent,
-  //   });
-  //   const compiledPath = routeToPath(params);
-
-  //   this.response.redirect(compiledPath);
-  // }
 }
 export { Router };

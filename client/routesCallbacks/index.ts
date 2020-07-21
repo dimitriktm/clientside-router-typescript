@@ -8,8 +8,8 @@ function articles({ params }) {
 }
 function article({ params, path }) {
   console.log("article page");
-  console.log("params", params);
   console.log("path", path);
+  console.log("params", params);
 }
 
 export { home, articles, article };

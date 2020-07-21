@@ -11,15 +11,33 @@ class Parser implements ParserInterface {
       encode: encodeURI,
       decode: decodeURIComponent,
     });
-    const matchResults = pathMatchFn(currentPath) as object;
-    return matchResults;
+    const isMatches = pathMatchFn(currentPath) !== false;
+    return isMatches;
+  }
+  /**
+   * Parser current path for parameters against path template
+   */
+  parse(path, currentPath) {
+    const pathParse = match(path, {
+      encode: encodeURI,
+      decode: decodeURIComponent,
+    });
+    /**
+     * cast Match<object> to "real" structure that match function returns
+     */
+    return pathParse(currentPath) as {
+      path: string;
+      params: { [key: string]: string };
+    };
   }
   /**
    * Compiles path template and params to actual path
    * (path: /user/:id; params: {id: 1}) => /user/1
    */
-  compile(path: string, params: {}) {
-    return "";
+  compile(path: string, params: { [key: string]: string }) {
+    const compilePathFn = compile(path, { encode: encodeURIComponent });
+    const compiledPath = compilePathFn(params);
+    return compiledPath;
   }
 }
 export { Parser };
