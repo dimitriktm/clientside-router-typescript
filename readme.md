@@ -21,4 +21,5 @@ This project was made as practice of OOP.
 
 ###### Note you can leave params empty if link does not contains any dynamic params
 
-    router.navigate(article, {id: 'web-components'});
+    // router.navigate(routeName, params);
+    router.navigate('article', {id: 'web-components'});
