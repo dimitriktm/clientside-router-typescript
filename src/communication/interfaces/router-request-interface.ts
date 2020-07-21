@@ -1,5 +1,6 @@
 interface RouterRequestInterface {
   getPath(): string;
-  onRequest(callback): void;
+  listerForRequest(callback): void;
+  unlistenForRequest(callback): void;
 }
 export { RouterRequestInterface };
