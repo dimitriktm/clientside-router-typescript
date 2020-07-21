@@ -22,7 +22,7 @@ class Router {
     this.onRequest();
 
     /**
-     * Next url changes will be fired with event throught Link component or go method
+     * Next url changes will be fired with event throught navigate method that's attached to link or called programmatically
      */
     // todo clean up event listener on desctruction
     window.addEventListener("popstate", () => this.onRequest());

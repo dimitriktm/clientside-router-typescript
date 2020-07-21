@@ -3,7 +3,7 @@ import { match, compile } from "path-to-regexp";
 class Parser implements ParserInterface {
   /**
    *
-   * Matches path with path template
+   * Matches currentPath with path template
    * /user/1 == /user/:id
    */
   match(path: string, currentPath: string) {
@@ -15,7 +15,7 @@ class Parser implements ParserInterface {
     return isMatches;
   }
   /**
-   * Parser current path for parameters against path template
+   * Parse current path for parameters against path template
    */
   parse(path, currentPath) {
     const pathParse = match(path, {
@@ -23,7 +23,7 @@ class Parser implements ParserInterface {
       decode: decodeURIComponent,
     });
     /**
-     * cast Match<object> to "real" structure that match function returns
+     * cast Match<object> to "real" structure that match function return
      */
     return pathParse(currentPath) as {
       path: string;
