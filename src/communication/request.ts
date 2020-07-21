@@ -1,8 +1,7 @@
-class Request {
-  static getPath(): string {
+class RouterRequest {
+  public getPath(): string {
     return window.location.pathname;
   }
-  static onUrlChange(callback: Function) {}
+  public onUrlChange(callback: Function) {}
 }
-
-export { Request };
+export { RouterRequest };

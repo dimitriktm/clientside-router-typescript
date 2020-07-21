@@ -1,14 +1,14 @@
-import { RouterJs } from "../src";
+import { routerjs } from "../src";
 import { home, articles, article } from "./routesCallbacks";
 const routes = [
-  { name: "home", path: "/", callback: home },
-  { name: "articles", path: "/articles", callback: articles },
+  { name: "home", path: "/", invoke: home },
+  { name: "articles", path: "/articles", invoke: articles },
   {
     name: "userArticle",
     path: "/user/:user/article/:slug",
-    callback: article,
+    invoke: article,
   },
 ];
-const router = new RouterJs();
+const router = routerjs();
 router.registerRoutes(routes);
 window["router"] = router;
