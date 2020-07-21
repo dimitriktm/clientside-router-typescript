@@ -1,4 +1,4 @@
-import { Router } from "./core/router";
+import { Router } from "./router";
 import { RouterRequest, RouterResponse } from "./communication";
 import { Parser } from "./parser";
 
